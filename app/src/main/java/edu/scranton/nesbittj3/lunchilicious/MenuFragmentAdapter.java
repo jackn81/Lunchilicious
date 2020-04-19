@@ -8,20 +8,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
 
-import edu.scranton.nesbittj3.lunchilicious.MainActivity.MenuItem;
+import edu.scranton.nesbittj3.lunchilicious.MenuItem;
 
 public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList<MainActivity.MenuItem> menuItems;
+    private List<MenuItem> menuItems;
+    private MenuItem item;
 
 
-    MenuFragmentAdapter(Context context, ArrayList<MenuItem> menuItems, TextView textView) {
+    MenuFragmentAdapter(Context context, List<MenuItem> menuItems, TextView textView) {
         this.context = context;
         this.menuItems = menuItems;
 
     }
+
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,10 +38,17 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
         holder.bind(menuItems.get(position));
     }
 
+    public void setMenuItems(List<MenuItem> item){
+        this.menuItems = menuItems;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount(){
         return menuItems.size();
     }
+
+
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView type;

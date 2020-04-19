@@ -3,16 +3,16 @@ package edu.scranton.nesbittj3.lunchilicious;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import java.util.ArrayList;
 
-
 public class MainActivity extends AppCompatActivity implements Mediator{
 
-    private MenuFragmentAdapter adapter;
+   // private MenuFragmentAdapter adapter;
     private MenuFragment menuFragment;
-
+   // private AddFragment addFrag;
+    MenuViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements Mediator{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentManager fragmentManager = getSupportFragmentManager();
-
+        viewModel = new ViewModelProvider(this).get(MenuViewModel.class);
         if(findViewById(R.id.container_main) != null) {
             Fragment menuFragment = MenuFragment.newInstance();
             fragmentManager.beginTransaction()
@@ -32,24 +32,6 @@ public class MainActivity extends AppCompatActivity implements Mediator{
 
     }
 
-    public class MyViewModel extends ViewModel {
-        ArrayList<MenuItem> items;
-    }
-
-    public class MenuItem {
-        int id;
-        String type;
-        String name;
-        String description;
-        float unitPrice;
-        public MenuItem(int id, String type, String name, String description, float unitPrice) {
-            this.id = id;
-            this.type = type;
-            this.name = name;
-            this.description = description;
-            this.unitPrice = unitPrice;
-        }
-    }
 
     public ArrayList<MenuItem> getMenuItems() {
 
@@ -73,5 +55,22 @@ public class MainActivity extends AppCompatActivity implements Mediator{
         menuFragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.container_main, menuFragment).commit();
         return items;
+    }
+
+
+
+
+    public int getMenuCount(ArrayList<MenuItem> items){
+        int count = 0;
+        for(int i = 0; i<items.size(); i++){
+            count++;
+        }
+        return count;
+    }
+
+    public void startMenu(Bundle args){
+        menuFragment = new MenuFragment();
+        menuFragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container_main, menuFragment).commit();
     }
 }
