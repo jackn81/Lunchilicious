@@ -50,7 +50,6 @@ public class MenuFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         Context context = view.getContext();
-        menuItems = getMenuItems();
 
         inName = view.findViewById(R.id.inName);
         inPrice = view.findViewById(R.id.inPrice);
@@ -61,70 +60,44 @@ public class MenuFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
-        adapter = new MenuFragmentAdapter(context, menuItems, textView);
-        recyclerView.setAdapter(adapter);
 
+        adapter = new MenuFragmentAdapter(context, textView);
+        recyclerView.setAdapter(adapter);
+        showMenu(null);
         add = view.findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-
-                CharSequence name = inName.getText();
-                String p = inPrice.getText().toString();
-                float price = Float.parseFloat(p);
-                CharSequence type = inType.getText();
-                int id = getId(menuItems);
-                viewModel.addMenuItem(menuItems, id, type, name, price);
+                addItem(view);
             }
         });
 
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
+
+    public void showMenu(View v){
         viewModel = new ViewModelProvider(this).get(MenuViewModel.class);
+        adapter = new MenuFragmentAdapter(getContext(), textView);
+        recyclerView.setAdapter(adapter);
         viewModel.getMenuItemsLiveData().observe(getViewLifecycleOwner(), new Observer<List<MenuItem>>() {
             @Override
-            public void onChanged(List<MenuItem> menuItems) {
+            public void onChanged(List<MenuItem> menuItems){
                 adapter.setMenuItems(menuItems);
+                adapter.notifyDataSetChanged();
             }
         });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //mediator = (Mediator) context;
+    public void addItem(View v){
+        viewModel = new ViewModelProvider(this).get(MenuViewModel.class);
+        String name = inName.getText().toString();
+        String p = inPrice.getText().toString();
+        float price = Float.parseFloat(p);
+        String type = inType.getText().toString();
+        int id = adapter.getItemCount();
+        id = id + 1;
+        MenuItem menuItem = new MenuItem(id, type, name, "", price);
+        viewModel.addMenuItem(menuItem);
     }
 
-    public ArrayList<MenuItem> getMenuItems() {
-
-        ArrayList<MenuItem> items = new ArrayList<>();
-        items.add(new MenuItem(1, "Hoagie", "BLT Hoagie", "Cold, Onion, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem(2, "Hoagie", "Cheese Hoagie", "Cheese, mayos, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem(3, "Hoagie", "Combo Hoagies", "Cold, Onion, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem(4, "Hoagie", "Ham & Cheese", "Cold, union, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem(5, "Hoagie", "Italian Hoagie", "Cheese, ham, hot pepper lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem(6, "Pizza", "Plain", "cheese and tomato", (float) 9.50));
-        items.add(new MenuItem(7, "Pizza", "Tomato Pizza", "Cheese and a lot of tomato", (float) 6.95));
-        items.add(new MenuItem(8, "Pizza", "House Special Pizza", "mushroom, green pepper, tomato", (float) 7.95));
-        items.add(new MenuItem(9, "Pizza", "Round White Pizza", "American cheese, lettuce, tomato", (float) 9.95));
-        items.add(new MenuItem(10, "Pizza", "Hot Wing Pizza", "chicken, hot sauce, lettuce, tomato", (float) 4.95));
-        items.add(new MenuItem(11, "Side", "Fries", "large hot fries", (float) 2.95));
-        items.add(new MenuItem(12, "Side", "Gravy Fries",  "Fries with gravy on top", (float) 3.95));
-        items.add(new MenuItem(13, "Side", "Cheese Fries", "Fries with melt cheese", (float) 4.95));
-        items.add(new MenuItem(14, "Side", "Onion Rings", "Deep fried onion rings", (float) 3.95));
-        items.add(new MenuItem(15, "Side", "Cheese Sticks", "Mozzarella cheese sticks", (float) 5.95));
-
-        return items;
-    }
-
-    public int getId(List<MenuItem> menuItems){
-        int id = 0;
-        for(int i = 0; i<menuItems.size(); i++){
-            id = id+ 1;
-        }
-        return id;
-    }
 }

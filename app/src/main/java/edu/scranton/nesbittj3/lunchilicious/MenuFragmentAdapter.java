@@ -20,7 +20,8 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
     private TextView textView;
 
 
-    MenuFragmentAdapter(Context context, List<MenuItem> menuItems, TextView textView) {
+    MenuFragmentAdapter(Context context, TextView textView) {
+        menuItems = new ArrayList<>();
         this.context = context;
         this.menuItems = menuItems;
         this.textView = textView;

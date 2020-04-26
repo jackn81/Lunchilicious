@@ -1,13 +1,19 @@
 package edu.scranton.nesbittj3.lunchilicious;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 
+@Entity(tableName = "item")
 public class MenuItem {
-    int id;
-    CharSequence type;
-    CharSequence name;
-    String description;
-    float unitPrice;
-    public MenuItem(int id, CharSequence type, CharSequence name, String description, float unitPrice) {
+    @PrimaryKey
+    public int id;
+    public String type;
+    public String name;
+    public String description;
+    public float unitPrice;
+
+    public MenuItem(int id, String type, String name, String description, float unitPrice) {
         this.id = id;
         this.type = type;
         this.name = name;
