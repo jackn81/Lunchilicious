@@ -17,20 +17,20 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
     private Context context;
     private List<MenuItem> menuItems;
     private MenuItem item;
+    private TextView textView;
 
 
     MenuFragmentAdapter(Context context, List<MenuItem> menuItems, TextView textView) {
         this.context = context;
         this.menuItems = menuItems;
-
+        this.textView = textView;
     }
-
-
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_view,parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
+       return new MyViewHolder(view);
     }
 
     @Override
@@ -38,17 +38,16 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
         holder.bind(menuItems.get(position));
     }
 
-    public void setMenuItems(List<MenuItem> item){
-        this.menuItems = menuItems;
-        notifyDataSetChanged();
-    }
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return menuItems.size();
     }
 
 
-
+    public void setMenuItems(List<MenuItem> menuItems){
+        this.menuItems = menuItems;
+        notifyDataSetChanged();
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView type;
@@ -62,11 +61,12 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
             unitPrice = view.findViewById(R.id.unitPrice);
         }
 
-        public void bind(MenuItem menuItem){
+        public void bind(MenuItem menuItems){
 
-            type.setText("" + menuItem.type);
-            name.setText("" + menuItem.name);
-            unitPrice.setText("" + menuItem.unitPrice);
+            type.setText("" + menuItems.type);
+            name.setText("" + menuItems.name);
+            unitPrice.setText("" + menuItems.unitPrice);
+
         }
     }
 }
