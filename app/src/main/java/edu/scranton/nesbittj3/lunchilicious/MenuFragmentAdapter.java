@@ -17,14 +17,14 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
     private Context context;
     private List<MenuItem> menuItems;
     private MenuItem item;
-    private TextView textView;
 
 
-    MenuFragmentAdapter(Context context, TextView textView) {
+
+    MenuFragmentAdapter(Context context) {
         menuItems = new ArrayList<>();
         this.context = context;
         this.menuItems = menuItems;
-        this.textView = textView;
+
     }
 
     @NonNull

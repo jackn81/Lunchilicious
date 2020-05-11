@@ -3,6 +3,7 @@ package edu.scranton.nesbittj3.lunchilicious;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.Menu;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,10 +18,12 @@ import java.util.List;
 public class MenuViewModel extends AndroidViewModel {
 
     LiveData<List<MenuItem>> menuLiveData = null;
-    List<MenuItem> items = new ArrayList<>();
+    MenuRepository repository;
 
     public MenuViewModel(@NonNull Application application){
         super(application);
+        repository = new MenuRepository(application);
+        menuLiveData = repository.getMenuItems();
     }
 
 
@@ -34,14 +37,23 @@ public class MenuViewModel extends AndroidViewModel {
         }
 
         public void addMenuItem(MenuItem menuItem){
-
-            LunchiliciousDatabase.databaseWriteExecutor.execute(() -> {
+            repository.addMenuItem(menuItem);
+           /* LunchiliciousDatabase.databaseWriteExecutor.execute(() -> {
                 Context context = getApplication().getApplicationContext();
                 int maxId = LunchiliciousDatabase.getInstance(context).menuItemDao().findMaxItemId();
                 menuItem.id = maxId + 1;
                 LunchiliciousDatabase.getInstance(context).menuItemDao().insertItem(menuItem);
 
-            });
+            });*/
         }
 
+        public void updateMenuItems(List<MenuItem> menuItem) {
+            repository.updateMenuItems(menuItem);
+               /* LunchiliciousDatabase.databaseWriteExecutor.execute(() -> {
+                    Context context = getApplication().getApplicationContext();
+                    //int maxId = LunchiliciousDatabase.getInstance(context).menuItemDao().findMaxItemId();
+                    //menuItem.id = maxId + 1;
+                    LunchiliciousDatabase.getInstance(context).menuItemDao().insertList(menuItem);
+                });*/
+        }
 }

@@ -1,4 +1,5 @@
 package edu.scranton.nesbittj3.lunchilicious;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -6,15 +7,16 @@ import java.util.ArrayList;
 
 @Entity(tableName = "item")
 public class MenuItem {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public String type;
     public String name;
     public String description;
+    @ColumnInfo(name = "price")
     public float unitPrice;
 
-    public MenuItem(int id, String type, String name, String description, float unitPrice) {
-        this.id = id;
+    public MenuItem(String type, String name, String description, float unitPrice) {
+
         this.type = type;
         this.name = name;
         this.description = description;
