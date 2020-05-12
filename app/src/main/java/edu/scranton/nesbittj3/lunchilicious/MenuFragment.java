@@ -118,21 +118,23 @@ public class MenuFragment extends Fragment {
         String type = inType.getText().toString();
         int id = 0;
         MenuItem menuItem = new MenuItem(type, name, "", price);
-        //viewModel.addMenuItem(menuItem);
+
         Call<MenuItem> call = client.addToMenu(menuItem);
+
         call.enqueue(new Callback<MenuItem>() {
            @Override
            public void onResponse(Call<MenuItem> call, Response<MenuItem> response){
                if(!response.isSuccessful()){
-
+                   Toast.makeText(getContext(), "Code: " + response.code(),
+                           Toast.LENGTH_LONG).show();
                }
-               MenuItem menuResponse = response.body();
-               Toast.makeText(getContext(), menuResponse.getName(), Toast.LENGTH_SHORT).show();
+               //MenuItem serverResponse = response.body();
+               //viewModel.addMenuItem(serverResponse);
            }
 
            @Override
             public void onFailure(Call<MenuItem> call, Throwable t){
-
+               Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
            }
         });
 

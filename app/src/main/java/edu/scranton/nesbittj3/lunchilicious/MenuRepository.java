@@ -15,16 +15,21 @@ import static java.lang.Boolean.TRUE;
 public class MenuRepository {
     private MenuItemDao menuItemDao;
     private LiveData<List<MenuItem>> menuLiveData;
+    private Context context;
 
     public MenuRepository(Application application){
         LunchiliciousDatabase database = LunchiliciousDatabase.getInstance(application);
         menuItemDao = database.menuItemDao();
         menuLiveData = menuItemDao.getAllItems();
+        context = application;
     }
 
     public void addMenuItem(MenuItem menuItem){
-        new addMenuItemAsyncTask(menuItemDao).execute(menuItem);
-        //menuItemDao.insertItem(menuItem);
+        //new addMenuItemAsyncTask(menuItemDao).execute(menuItem);
+        LunchiliciousDatabase.databaseWriteExecutor.execute(() ->{
+            menuItemDao.insertItem(menuItem);
+        });
+        //Log.d("REPOSITORY", "SEND TO REMOTE: " +menuItem.toString());
         //new addMenuItemAsyncTask(menuItemDao).execute(menuItem);
     }
 
@@ -51,7 +56,15 @@ public class MenuRepository {
         }
         @Override
         protected Void doInBackground(MenuItem... items){
-            menuItemDao.insertItem(items[0]);
+            LunchiliciousDatabase.databaseWriteExecutor.execute(() -> {
+                menuItemDao.insertItem(items[0]);
+                //int maxId = LunchiliciousDatabase.getInstance(context).menuItemDao().findMaxItemId();
+                //menuItem.id = maxId + 1;
+                //LunchiliciousDatabase.getInstance(context).menuItemDao().insertItem(menuItem);
+
+            });
+            //sendToRemote(items);
+
             return null;
         }
 

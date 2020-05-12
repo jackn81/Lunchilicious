@@ -49,11 +49,6 @@ public class MenuViewModel extends AndroidViewModel {
 
         public void updateMenuItems(List<MenuItem> menuItem) {
             repository.updateMenuItems(menuItem);
-               /* LunchiliciousDatabase.databaseWriteExecutor.execute(() -> {
-                    Context context = getApplication().getApplicationContext();
-                    //int maxId = LunchiliciousDatabase.getInstance(context).menuItemDao().findMaxItemId();
-                    //menuItem.id = maxId + 1;
-                    LunchiliciousDatabase.getInstance(context).menuItemDao().insertList(menuItem);
-                });*/
+
         }
 }

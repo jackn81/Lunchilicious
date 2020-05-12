@@ -11,6 +11,6 @@ public interface KeplerPlaceHolderAPI {
     @GET ("lunchilicious/menuitems")
     Call<List<MenuItem>> updateMenu();
 
-    @POST ("lunchilicious/menuitems")
-    Call<MenuItem> addToMenu(@Body MenuItem menuItems);
+    @POST ("lunchilicious/addmenuitem")
+    Call<MenuItem> addToMenu(@Body MenuItem menuItem);
 }
