@@ -1,8 +1,10 @@
 package edu.scranton.nesbittj3.lunchilicious;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -12,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Database(entities = MenuItem.class, version = 6)
 public abstract class LunchiliciousDatabase extends RoomDatabase {
@@ -42,30 +50,14 @@ public abstract class LunchiliciousDatabase extends RoomDatabase {
                MenuItemDao menuItemDao = instance.menuItemDao();
                menuItemDao.deleteAllItems();
                 List<MenuItem> menuItems = getMenuItems();
-                menuItemDao.insertList(menuItems);
+
+
             });
         }
     };
 
         private static ArrayList<MenuItem> getMenuItems() {
 
-        ArrayList<MenuItem> items = new ArrayList<>();
-        items.add(new MenuItem( "Hoagie", "BLT Hoagie", "Cold, Onion, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem( "Hoagie", "Cheese Hoagie", "Cheese, mayos, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem( "Hoagie", "Combo Hoagies", "Cold, Onion, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem( "Hoagie", "Ham & Cheese", "Cold, union, lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem( "Hoagie", "Italian Hoagie", "Cheese, ham, hot pepper lettuce, tomato", (float) 6.95));
-        items.add(new MenuItem( "Pizza", "Plain", "cheese and tomato", (float) 9.50));
-        items.add(new MenuItem( "Pizza", "Tomato Pizza", "Cheese and a lot of tomato", (float) 6.95));
-        items.add(new MenuItem( "Pizza", "House Special Pizza", "mushroom, green pepper, tomato", (float) 7.95));
-        items.add(new MenuItem( "Pizza", "Round White Pizza", "American cheese, lettuce, tomato", (float) 9.95));
-        items.add(new MenuItem( "Pizza", "Hot Wing Pizza", "chicken, hot sauce, lettuce, tomato", (float) 4.95));
-        items.add(new MenuItem( "Side", "Fries", "large hot fries", (float) 2.95));
-        items.add(new MenuItem( "Side", "Gravy Fries",  "Fries with gravy on top", (float) 3.95));
-        items.add(new MenuItem( "Side", "Cheese Fries", "Fries with melt cheese", (float) 4.95));
-        items.add(new MenuItem( "Side", "Onion Rings", "Deep fried onion rings", (float) 3.95));
-        items.add(new MenuItem( "Side", "Cheese Sticks", "Mozzarella cheese sticks", (float) 5.95));
-
-        return items;
+        return null;
     }
 }

@@ -25,18 +25,16 @@ public class MenuRepository {
     }
 
     public void addMenuItem(MenuItem menuItem){
-        //new addMenuItemAsyncTask(menuItemDao).execute(menuItem);
+
         LunchiliciousDatabase.databaseWriteExecutor.execute(() ->{
             menuItemDao.insertItem(menuItem);
         });
-        //Log.d("REPOSITORY", "SEND TO REMOTE: " +menuItem.toString());
-        //new addMenuItemAsyncTask(menuItemDao).execute(menuItem);
+
     }
 
     public void updateMenuItems(List<MenuItem> menuItem){
         new updateMenuItemAsyncTask(menuItemDao).execute(menuItem);
 
-        //new updateMenuItemAsyncTask(menuItemDao).execute(menuItem);
     }
 
 
@@ -48,27 +46,6 @@ public class MenuRepository {
         Log.d("MENUITEM", "SEND TO REMOTE: " + menuItem.toString());
     }
 
-    private static class addMenuItemAsyncTask extends AsyncTask<MenuItem, Void, Void>{
-        private MenuItemDao menuItemDao;
-
-        private addMenuItemAsyncTask(MenuItemDao menuItemDao){
-            this.menuItemDao = menuItemDao;
-        }
-        @Override
-        protected Void doInBackground(MenuItem... items){
-            LunchiliciousDatabase.databaseWriteExecutor.execute(() -> {
-                menuItemDao.insertItem(items[0]);
-                //int maxId = LunchiliciousDatabase.getInstance(context).menuItemDao().findMaxItemId();
-                //menuItem.id = maxId + 1;
-                //LunchiliciousDatabase.getInstance(context).menuItemDao().insertItem(menuItem);
-
-            });
-            //sendToRemote(items);
-
-            return null;
-        }
-
-    }
     private static class updateMenuItemAsyncTask extends AsyncTask<List<MenuItem>, Void, Void> {
         private MenuItemDao menuItemDao;
 

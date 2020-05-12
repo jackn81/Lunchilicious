@@ -74,7 +74,7 @@ public class MenuFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
-
+        updateMenu(view);
         adapter = new MenuFragmentAdapter(context);
         recyclerView.setAdapter(adapter);
         showMenu(null);
@@ -105,7 +105,6 @@ public class MenuFragment extends Fragment {
             @Override
             public void onChanged(List<MenuItem> menuItems){
                 adapter.setMenuItems(menuItems);
-                //adapter.notifyDataSetChanged();
             }
         });
     }
@@ -128,8 +127,6 @@ public class MenuFragment extends Fragment {
                    Toast.makeText(getContext(), "Code: " + response.code(),
                            Toast.LENGTH_LONG).show();
                }
-               //MenuItem serverResponse = response.body();
-               //viewModel.addMenuItem(serverResponse);
            }
 
            @Override
